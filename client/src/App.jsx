@@ -22,7 +22,7 @@ export default function App() {
         setIsOnline(false);
       }
     };
-    
+
     checkStatus();
     const interval = setInterval(checkStatus, 30000); // Check every 30 seconds
     return () => clearInterval(interval);
@@ -40,8 +40,8 @@ export default function App() {
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-cyan-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-purple-400/10 to-blue-400/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-cyan-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-purple-400/10 to-blue-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
       </div>
 
       <header className={`sticky top-0 z-40 transition ${scrolled ? 'bg-white/80 backdrop-blur-xl shadow-md border-b border-white/20' : 'bg-white/60 backdrop-blur-lg'}`}>
@@ -52,7 +52,7 @@ export default function App() {
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-600 via-purple-600 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg transform rotate-3 hover:rotate-0 transition-transform duration-300">
                   <span className="text-white font-bold text-lg">42</span>
                 </div>
-                <div 
+                <div
                   className={`absolute -top-1 -right-1 w-3 h-3 rounded-full border-2 border-white ${isOnline ? 'bg-green-400' : 'bg-red-400'} animate-pulse cursor-pointer`}
                   title={isOnline ? 'Online' : 'Drowned'}
                 ></div>
@@ -64,16 +64,16 @@ export default function App() {
                 <p className="text-gray-600 text-sm">Your intelligent companion for campus life</p>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <nav className="hidden md:flex items-center space-x-3">
-                <NavLink to="/" className={({isActive}) => `relative text-base font-semibold px-4 py-3 rounded-xl transition ${isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'}`}>
+                <NavLink to="/" className={({ isActive }) => `relative text-base font-semibold px-4 py-3 rounded-xl transition ${isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'}`}>
                   Home
                 </NavLink>
-                <NavLink to="/about" className={({isActive}) => `relative text-base font-semibold px-4 py-3 rounded-xl transition ${isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'}`}>
+                <NavLink to="/about" className={({ isActive }) => `relative text-base font-semibold px-4 py-3 rounded-xl transition ${isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'}`}>
                   About
                 </NavLink>
-                <NavLink to="/team" className={({isActive}) => `relative text-base font-semibold px-4 py-3 rounded-xl transition ${isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'}`}>
+                <NavLink to="/team" className={({ isActive }) => `relative text-base font-semibold px-4 py-3 rounded-xl transition ${isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'}`}>
                   Team
                 </NavLink>
               </nav>
@@ -86,14 +86,14 @@ export default function App() {
           </div>
           {menuOpen && (
             <div className="md:hidden mt-4 bg-white/80 rounded-2xl border border-white/50 shadow p-2">
-              <NavLink onClick={() => setMenuOpen(false)} to="/" className={({isActive}) => `block px-4 py-3 rounded-lg text-base font-semibold ${isActive ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-gray-100'}`}>Home</NavLink>
-              <NavLink onClick={() => setMenuOpen(false)} to="/about" className={({isActive}) => `block px-4 py-3 rounded-lg text-base font-semibold ${isActive ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-gray-100'}`}>About</NavLink>
-              <NavLink onClick={() => setMenuOpen(false)} to="/team" className={({isActive}) => `block px-4 py-3 rounded-lg text-base font-semibold ${isActive ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-gray-100'}`}>Team</NavLink>
+              <NavLink onClick={() => setMenuOpen(false)} to="/" className={({ isActive }) => `block px-4 py-3 rounded-lg text-base font-semibold ${isActive ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-gray-100'}`}>Home</NavLink>
+              <NavLink onClick={() => setMenuOpen(false)} to="/about" className={({ isActive }) => `block px-4 py-3 rounded-lg text-base font-semibold ${isActive ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-gray-100'}`}>About</NavLink>
+              <NavLink onClick={() => setMenuOpen(false)} to="/team" className={({ isActive }) => `block px-4 py-3 rounded-lg text-base font-semibold ${isActive ? 'bg-blue-600 text-white' : 'text-gray-800 hover:bg-gray-100'}`}>Team</NavLink>
             </div>
           )}
         </div>
       </header>
-      
+
       <main className="relative flex-1 p-5">
         <div className="max-w-7xl mx-auto">
           <Routes>
@@ -103,7 +103,7 @@ export default function App() {
           </Routes>
         </div>
       </main>
-      
+
       <footer className="relative bg-white/50 backdrop-blur-xl border-t border-white/20">
         <div className="max-w-7xl mx-auto px-6 py-2">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -117,14 +117,14 @@ export default function App() {
               <span>•</span>
               <a href="/team" className="hover:text-gray-700">Team</a>
               <span>•</span>
-              <button 
+              <button
                 onClick={() => window.open('https://github.com/ExceptedPrism3/42-Hackaton/issues/new?title=Bug Report: False Information&body=Please describe the incorrect information you found and what the correct information should be.', '_blank')}
                 className="hover:text-gray-700 underline"
               >
                 🐛 Report Bug
               </button>
               <span>•</span>
-              <span>© 2025 42Botler</span>
+              <span>© 2025 - 2026 42Botler</span>
             </div>
           </div>
         </div>
