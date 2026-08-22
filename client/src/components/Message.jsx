@@ -1,256 +1,164 @@
-import React, { useState } from 'react';
-import TypewriterText from './TypewriterText.jsx';
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import CodeBlock from './CodeBlock.jsx';
 
-// Bash Command Component
-function BashCommand({ command, description, example }) {
-  const [copied, setCopied] = useState(false);
-
-  const copyToClipboard = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy: ', err);
-    }
-  };
-
-  return (
-    <div className="bg-gray-900 rounded-lg p-4 mb-4 border border-gray-700">
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <div className="flex items-center space-x-2 mb-2">
-            <span className="text-green-400 font-mono text-sm">$</span>
-            <code className="text-white font-mono text-sm bg-gray-800 px-2 py-1 rounded">
-              {command}
-            </code>
-          </div>
-          {description && (
-            <p className="text-gray-300 text-sm mb-2">{description}</p>
-          )}
-          {example && (
-            <div className="mt-2">
-              <p className="text-gray-400 text-xs mb-1">Example:</p>
-              <code className="text-blue-300 font-mono text-xs bg-gray-800 px-2 py-1 rounded block">
-                {example}
-              </code>
-            </div>
-          )}
-        </div>
-        <button
-          onClick={() => copyToClipboard(command)}
-          className={`ml-3 px-3 py-1 rounded text-xs font-medium transition-colors ${
-            copied
-              ? 'bg-green-600 text-white'
-              : 'bg-blue-600 hover:bg-blue-700 text-white'
-          }`}
-        >
-          {copied ? '✓ Copied!' : 'Copy'}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// Simple markdown renderer for basic formatting
-function renderMarkdown(text) {
-  if (!text) return '';
-  
-  // Check if this is a bash command response
-  if (text.includes('```bash') || text.includes('BASH COMMAND:')) {
-    return renderBashCommands(text);
-  }
-  
-  // Split by lines to handle line breaks
-  const lines = text.split('\n');
-  
-  return lines.map((line, index) => {
-    // Handle bold text **text**
-    let processedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    
-    // Handle inline code `code`
-    processedLine = processedLine.replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono">$1</code>');
-    
-    // Handle clickable links for search engines
-    processedLine = processedLine.replace(/Google/g, '<a href="https://www.google.com" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline font-medium">Google</a>');
-    processedLine = processedLine.replace(/Bing/g, '<a href="https://www.bing.com" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline font-medium">Bing</a>');
-    processedLine = processedLine.replace(/DuckDuckGo/g, '<a href="https://duckduckgo.com" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline font-medium">DuckDuckGo</a>');
-    processedLine = processedLine.replace(/search engines/g, '<a href="https://www.google.com" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline font-medium">search engines</a>');
-    
-    // Handle other common links
-    processedLine = processedLine.replace(/42 Heilbronn/g, '<a href="https://42heilbronn.de" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline font-medium">42 Heilbronn</a>');
-    processedLine = processedLine.replace(/42 school/g, '<a href="https://42heilbronn.de" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline font-medium">42 school</a>');
-    
-    // Handle bullet points
-    if (line.trim().startsWith('•') || line.trim().startsWith('-')) {
-      return (
-        <div key={index} className="flex items-start">
-          <span className="text-lg mr-2">•</span>
-          <span dangerouslySetInnerHTML={{ __html: processedLine.replace(/^[•-]\s*/, '') }} />
-        </div>
-      );
-    }
-    
-    // Handle regular lines
-    return (
-      <div key={index} dangerouslySetInnerHTML={{ __html: processedLine }} />
-    );
-  });
-}
-
-// Render bash commands with copy buttons
-function renderBashCommands(text) {
-  // Extract the user's question from the text to provide relevant commands
-  const userQuestion = text.toLowerCase();
-  
-  let relevantCommands = [];
-  
-  if (userQuestion.includes('invisible') || userQuestion.includes('hidden') || userQuestion.includes('list files')) {
-    relevantCommands = [
-      {
-        command: 'ls -la',
-        description: 'List all files including hidden ones (starting with .)',
-        example: 'ls -la'
-      },
-      {
-        command: 'ls -a',
-        description: 'List all files including hidden ones (shorter version)',
-        example: 'ls -a'
-      }
-    ];
-  } else if (userQuestion.includes('find') || userQuestion.includes('search')) {
-    relevantCommands = [
-      {
-        command: 'find . -name "*.c"',
-        description: 'Find all C files in current directory and subdirectories',
-        example: 'find . -name "*.c" -type f'
-      },
-      {
-        command: 'grep -r "text" .',
-        description: 'Search for text in all files recursively',
-        example: 'grep -r "main" . --include="*.c"'
-      }
-    ];
-  } else if (userQuestion.includes('directory') || userQuestion.includes('folder') || userQuestion.includes('structure')) {
-    relevantCommands = [
-      {
-        command: 'tree',
-        description: 'Display directory structure as a tree',
-        example: 'tree -L 2'
-      },
-      {
-        command: 'ls -la',
-        description: 'List all files with detailed information',
-        example: 'ls -la'
-      }
-    ];
-  } else if (userQuestion.includes('disk') || userQuestion.includes('size') || userQuestion.includes('usage')) {
-    relevantCommands = [
-      {
-        command: 'du -sh *',
-        description: 'Show disk usage of files and directories',
-        example: 'du -sh /home/user/project'
-      },
-      {
-        command: 'df -h',
-        description: 'Show disk space usage of filesystems',
-        example: 'df -h'
-      }
-    ];
-  } else if (userQuestion.includes('process') || userQuestion.includes('running')) {
-    relevantCommands = [
-      {
-        command: 'ps aux | grep process_name',
-        description: 'List running processes and filter by name',
-        example: 'ps aux | grep gcc'
-      },
-      {
-        command: 'ps aux',
-        description: 'List all running processes',
-        example: 'ps aux'
-      }
-    ];
-  } else {
-    // Default to a few essential commands if no specific match
-    relevantCommands = [
-      {
-        command: 'ls -la',
-        description: 'List all files including hidden ones',
-        example: 'ls -la'
-      },
-      {
-        command: 'find . -name "*.c"',
-        description: 'Find all C files in current directory',
-        example: 'find . -name "*.c" -type f'
-      }
-    ];
-  }
-
-  return (
-    <div>
-      <p className="text-gray-700 mb-4">
-        Here are the relevant bash commands for your question:
-      </p>
-      {relevantCommands.map((cmd, index) => (
-        <BashCommand
-          key={index}
-          command={cmd.command}
-          description={cmd.description}
-          example={cmd.example}
-        />
-      ))}
-    </div>
-  );
-}
-
-export default function Message({ role, content, isTyping = false }) {
+export default function Message({ role, content, timestamp, onSuggestionClick }) {
   const isUser = role === 'user';
-  
+  const timeString = timestamp 
+    ? new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    : new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  // Extract suggestions if present in format: [? Suggestion text ?]
+  const suggestionMatches = !isUser ? content.match(/\[\?\s*(.*?)\s*\?\]/g) : null;
+  const cleanContent = !isUser 
+    ? content.replace(/\[\?\s*(.*?)\s*\?\]/g, '').trim() 
+    : content;
+
+  const suggestions = suggestionMatches
+    ? suggestionMatches.map(s => s.replace(/\[\?\s*|\s*\?\]/g, '').trim())
+    : [];
+
   return (
-    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-6`}>
-      <div className={`flex items-start space-x-4 max-w-[90%] ${isUser ? 'flex-row-reverse space-x-reverse' : ''}`}>
+    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-5 group animate-fadeIn`}>
+      <div className={`flex items-start max-w-[95%] md:max-w-[85%] space-x-3.5 ${isUser ? 'flex-row-reverse space-x-reverse' : ''}`}>
+        
         {/* Avatar */}
-        <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${
-          isUser 
-            ? 'bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600' 
-            : 'bg-gradient-to-br from-purple-500 via-purple-600 to-cyan-600'
+        <div className={`w-9 h-9 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md transition-transform duration-300 group-hover:scale-105 ${
+          isUser
+            ? 'bg-gradient-to-tr from-blue-600 to-indigo-600 text-white'
+            : 'bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-500 text-white'
         }`}>
           {isUser ? (
-            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
             </svg>
           ) : (
-            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
-            </svg>
+            <span className="font-bold text-xs tracking-tighter">42</span>
           )}
         </div>
-        
-        {/* Message Content */}
-        <div className={`rounded-3xl px-6 py-4 shadow-lg backdrop-blur-sm ${
-          isUser 
-            ? 'bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600 text-white' 
-            : 'bg-white/90 border border-gray-200/50 text-gray-800'
+
+        {/* Bubble */}
+        <div className={`rounded-2xl px-5 py-3.5 shadow-md backdrop-blur-sm transition-all duration-200 ${
+          isUser
+            ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white selection:bg-white/30'
+            : 'bg-white/95 dark:bg-gray-850 dark:bg-[#111827] border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-100'
         }`}>
           {isUser ? (
-            <div className="whitespace-pre-wrap text-base leading-relaxed">
-              {renderMarkdown(content)}
+            <div className="whitespace-pre-wrap text-sm md:text-base leading-relaxed break-words font-sans">
+              {content}
             </div>
           ) : (
-            <TypewriterText 
-              text={content} 
-              speed={20}
-            />
+            <div className="prose prose-sm md:prose-base dark:prose-invert max-w-none break-words leading-relaxed">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  // Prevent nested pre tags wrapping our code block
+                  pre({ children }) {
+                    return <>{children}</>;
+                  },
+                  code({ node, className, children, ...props }) {
+                    const match = /language-(\w+)/.exec(className || '');
+                    const codeText = String(children).replace(/\n$/, '');
+                    const isMultiLine = codeText.includes('\n');
+
+                    // If it has a language spec or is multiline, render CodeBlock
+                    if (match || isMultiLine) {
+                      return (
+                        <CodeBlock
+                          language={match ? match[1] : 'text'}
+                          value={codeText}
+                        />
+                      );
+                    }
+
+                    // Single line inline code: render clean inline badge
+                    return (
+                      <code
+                        className="bg-gray-100 dark:bg-gray-800 text-indigo-600 dark:text-cyan-300 px-1.5 py-0.5 rounded text-xs md:text-sm font-mono font-semibold inline"
+                        {...props}
+                      >
+                        {children}
+                      </code>
+                    );
+                  },
+                  table({ children }) {
+                    return (
+                      <div className="overflow-x-auto my-3 rounded-xl border border-gray-200 dark:border-gray-800">
+                        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800 text-xs md:text-sm">
+                          {children}
+                        </table>
+                      </div>
+                    );
+                  },
+                  th({ children }) {
+                    return (
+                      <th className="px-3.5 py-2 bg-gray-100/80 dark:bg-gray-800/80 font-bold text-left text-gray-800 dark:text-gray-200">
+                        {children}
+                      </th>
+                    );
+                  },
+                  td({ children }) {
+                    return (
+                      <td className="px-3.5 py-2 border-t border-gray-100 dark:border-gray-800 text-gray-600 dark:text-gray-300">
+                        {children}
+                      </td>
+                    );
+                  },
+                  blockquote({ children }) {
+                    return (
+                      <blockquote className="border-l-4 border-indigo-500 pl-4 py-1.5 my-2.5 bg-indigo-50/60 dark:bg-indigo-950/40 rounded-r-xl text-gray-700 dark:text-gray-300 text-xs md:text-sm">
+                        {children}
+                      </blockquote>
+                    );
+                  },
+                  a({ href, children }) {
+                    return (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-cyan-400 font-semibold hover:underline inline-flex items-center gap-0.5"
+                      >
+                        {children}
+                        <svg className="w-3 h-3 inline-block ml-0.5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    );
+                  }
+                }}
+              >
+                {cleanContent}
+              </ReactMarkdown>
+
+              {/* Dynamic Interactive Suggestion Chips */}
+              {suggestions.length > 0 && onSuggestionClick && (
+                <div className="mt-3.5 pt-3 border-t border-gray-100 dark:border-gray-800 flex flex-wrap gap-2">
+                  {suggestions.map((sug, sIdx) => (
+                    <button
+                      key={sIdx}
+                      onClick={() => onSuggestionClick(sug)}
+                      className="text-xs font-medium px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:hover:bg-blue-900/60 text-blue-700 dark:text-cyan-300 border border-blue-200/60 dark:border-blue-800/60 transition-all transform hover:-translate-y-0.5 shadow-sm"
+                    >
+                      💬 {sug}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
-          <div className={`text-xs mt-3 font-medium ${
-            isUser ? 'text-blue-100' : 'text-gray-500'
+
+          {/* Footer Metadata */}
+          <div className={`text-[11px] mt-2.5 font-medium flex items-center justify-between gap-4 ${
+            isUser ? 'text-blue-100' : 'text-gray-400 dark:text-gray-500'
           }`}>
-            {isUser ? 'You' : '42Botler'} • {new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+            <span>{isUser ? 'You' : '42Botler'}</span>
+            <span>{timeString}</span>
           </div>
         </div>
+
       </div>
     </div>
   );
 }
-
-

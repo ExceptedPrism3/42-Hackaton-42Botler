@@ -1,0 +1,23 @@
+{
+  "name": "42botler-monorepo",
+  "version": "2.0.0",
+  "description": "AI-Powered Chatbot and Student Guide for 42 Heilbronn",
+  "private": true,
+  "scripts": {
+    "dev:server": "cd server && npm start",
+    "dev:client": "cd client && npm run dev",
+    "build:client": "cd client && npm run build",
+    "install:all": "cd server && npm install && cd ../client && npm install && cd ../scrapers && npm install",
+    "start": "cd server && npm start",
+    "scrape": "cd scrapers && node run-scraper.js"
+  },
+  "keywords": [
+    "42",
+    "42heilbronn",
+    "chatbot",
+    "ai",
+    "rag"
+  ],
+  "author": "42Botler Team",
+  "license": "MIT"
+}

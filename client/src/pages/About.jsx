@@ -2,60 +2,69 @@ import React from 'react';
 
 export default function About() {
   return (
-    <div className="relative">
-      <div className="mb-8 rounded-3xl overflow-hidden border border-white/40 bg-white/70 backdrop-blur-xl">
-        <div className="p-10 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 text-white text-center">
-          <h2 className="text-4xl font-extrabold tracking-tight">About 42Botler</h2>
-          <p className="mt-2 text-blue-50 max-w-3xl mx-auto">Your 42 Heilbronn companion for campus info, project guidance, and workflows — laser-focused on 42 content to keep you productive.</p>
+    <div className="relative space-y-6 animate-fadeIn max-w-5xl mx-auto py-2">
+      {/* Banner */}
+      <div className="rounded-3xl overflow-hidden border border-white/40 dark:border-gray-800 shadow-xl bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl">
+        <div className="p-8 sm:p-10 bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 text-white text-center">
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tight">About 42Botler</h2>
+          <p className="mt-3 text-blue-100 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+            Your specialized 42 Heilbronn companion for campus info, Norminette rules, curriculum guidance, and student workflows.
+          </p>
         </div>
-        <div className="grid md:grid-cols-3 gap-6 p-8">
-          <div className="p-6 rounded-2xl bg-white/90 border border-gray-100 shadow-sm">
-            <h3 className="font-semibold text-gray-900">Purpose</h3>
-            <p className="text-gray-600 mt-2">Fast, precise answers about campus, curriculum, projects, tools, and procedures.</p>
+
+        <div className="grid sm:grid-cols-3 gap-4 p-6 sm:p-8">
+          <div className="p-5 rounded-2xl bg-white/80 dark:bg-gray-800/80 border border-gray-100 dark:border-gray-700/80 shadow-sm">
+            <div className="text-2xl mb-2">🎯</div>
+            <h3 className="font-bold text-gray-900 dark:text-gray-100 text-base">Purpose</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mt-1 leading-relaxed">
+              Instant, precise answers about campus resources, curriculum, tools, and evaluation workflows.
+            </p>
           </div>
-          <div className="p-6 rounded-2xl bg-white/90 border border-gray-100 shadow-sm">
-            <h3 className="font-semibold text-gray-900">Tech Stack</h3>
-            <p className="text-gray-600 mt-2">React, Vite, Tailwind CSS, Node.js, Express, OpenAI, and custom scraping.</p>
+
+          <div className="p-5 rounded-2xl bg-white/80 dark:bg-gray-800/80 border border-gray-100 dark:border-gray-700/80 shadow-sm">
+            <div className="text-2xl mb-2">⚡</div>
+            <h3 className="font-bold text-gray-900 dark:text-gray-100 text-base">Modern RAG</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mt-1 leading-relaxed">
+              Retrieval-Augmented Generation across 110+ Notion Wiki chapters and official 42 documentation.
+            </p>
           </div>
-          <div className="p-6 rounded-2xl bg-white/90 border border-gray-100 shadow-sm">
-            <h3 className="font-semibold text-gray-900">Scope</h3>
-            <p className="text-gray-600 mt-2">42-only content. Outside scope? We direct you to Google instead.</p>
-          </div>
-        </div>
-        <div className="px-8 pb-8">
-          <div className="flex flex-wrap items-center justify-center gap-4 opacity-90">
-            <img src="https://cdn.simpleicons.org/react/61DAFB" alt="React" className="h-8 w-8" />
-            <img src="https://cdn.simpleicons.org/vite/646CFF" alt="Vite" className="h-8 w-8" />
-            <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="Tailwind" className="h-8 w-8" />
-            <img src="https://cdn.simpleicons.org/nodedotjs/5FA04E" alt="Node.js" className="h-8 w-8" />
-            <img src="https://cdn.simpleicons.org/express/000000" alt="Express" className="h-8 w-8" />
-            <img src="https://cdn.simpleicons.org/openai/412991" alt="OpenAI" className="h-8 w-8" />
+
+          <div className="p-5 rounded-2xl bg-white/80 dark:bg-gray-800/80 border border-gray-100 dark:border-gray-700/80 shadow-sm">
+            <div className="text-2xl mb-2">🛡️</div>
+            <h3 className="font-bold text-gray-900 dark:text-gray-100 text-base">Focused Scope</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mt-1 leading-relaxed">
+              42-only topics. General questions are politely redirected to keep your workflow distraction-free.
+            </p>
           </div>
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="p-6 rounded-2xl bg-white/70 backdrop-blur-xl border border-white/40">
-          <h3 className="font-semibold text-gray-800">How it works</h3>
-          <ul className="mt-3 text-gray-600 list-disc pl-5 space-y-1">
-            <li>Chat frontend sends messages to backend API</li>
-            <li>Backend injects 42-specific knowledge base</li>
-            <li>OpenAI generates focused responses</li>
-            <li>Scrapers keep knowledge fresh</li>
+      {/* Details Grid */}
+      <div className="grid md:grid-cols-2 gap-5">
+        <div className="p-6 rounded-3xl bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border border-white/40 dark:border-gray-800 shadow-md">
+          <h3 className="font-bold text-gray-900 dark:text-gray-100 text-lg flex items-center gap-2">
+            <span>⚙️</span> How It Works
+          </h3>
+          <ul className="mt-4 text-gray-600 dark:text-gray-400 text-sm space-y-2.5 list-disc pl-5">
+            <li><strong>Live Indexing</strong>: Semantic search extracts relevant wiki chunks instantly.</li>
+            <li><strong>AI Model</strong>: GPT-4o-mini with SSE streaming for zero-latency response rendering.</li>
+            <li><strong>Interactive Code</strong>: Built-in C/Bash syntax highlight with one-click copy buttons.</li>
+            <li><strong>Offline Fallbacks</strong>: Keyword responses keep working even when network is down.</li>
           </ul>
         </div>
-        <div className="p-6 rounded-2xl bg-gradient-to-br from-indigo-50 via-white to-cyan-50 border border-white/40">
-          <h3 className="font-semibold text-gray-800">What you can ask</h3>
-          <ul className="mt-3 text-gray-600 list-disc pl-5 space-y-1">
-            <li>Norminette, Moulinette, Piscine tips</li>
-            <li>Campus hours, resources, and tools</li>
-            <li>Project guidelines and peer evals</li>
-            <li>Events, partnerships, and more</li>
+
+        <div className="p-6 rounded-3xl bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border border-white/40 dark:border-gray-800 shadow-md">
+          <h3 className="font-bold text-gray-900 dark:text-gray-100 text-lg flex items-center gap-2">
+            <span>💬</span> What You Can Ask
+          </h3>
+          <ul className="mt-4 text-gray-600 dark:text-gray-400 text-sm space-y-2.5 list-disc pl-5">
+            <li><strong>Norminette & Moulinette</strong>: Specific rule explanations and C code syntax.</li>
+            <li><strong>Campus & Cluster</strong>: Opening hours, security badge replacement, Mensa schedule.</li>
+            <li><strong>Academics</strong>: Peer evaluation etiquette, milestone pace, HHN Double Degree.</li>
+            <li><strong>Commands</strong>: Quick slash shortcuts like <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-indigo-600 dark:text-indigo-400">/norm</code>, <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-indigo-600 dark:text-indigo-400">/peer</code>, <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-indigo-600 dark:text-indigo-400">/cluster</code>.</li>
           </ul>
         </div>
       </div>
     </div>
   );
 }
-
-

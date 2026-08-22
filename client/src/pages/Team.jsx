@@ -11,19 +11,26 @@ const team = [
 
 export default function Team() {
   return (
-    <div className="text-center">
-      <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">Meet the Team</h2>
-      <p className="text-gray-600 mt-2">We're a team of six focused on student experience and practical tools.</p>
+    <div className="text-center max-w-5xl mx-auto py-4 animate-fadeIn">
+      <h2 className="text-3xl font-black bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 bg-clip-text text-transparent">
+        Meet the Team
+      </h2>
+      <p className="text-gray-600 dark:text-gray-400 mt-2 text-sm sm:text-base">
+        Crafted by students for students to elevate the 42 Heilbronn experience.
+      </p>
 
-      <div className="grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 mt-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 mt-8">
         {team.map((member, idx) => (
-          <div key={member.name} className={`group p-4 rounded-2xl bg-white/70 backdrop-blur-xl border border-white/40 shadow hover:shadow-lg transition transform hover:-translate-y-1 hover:scale-[1.02]`}>
-            <div className={`flex flex-col items-center text-center animate-float-slow`} style={{animationDelay: `${idx * 0.15}s`}}>
-              <div className="w-24 h-24 rounded-full overflow-hidden ring-4 ring-white shadow-md">
-                <img src={member.avatarUrl} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition" />
+          <div 
+            key={member.name} 
+            className="group p-5 rounded-2xl bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border border-white/40 dark:border-gray-800 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+          >
+            <div className="flex flex-col items-center text-center animate-float-slow" style={{ animationDelay: `${idx * 0.15}s` }}>
+              <div className="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-white dark:ring-gray-800 shadow-md group-hover:scale-105 transition-transform duration-300">
+                <img src={member.avatarUrl} alt={member.name} className="w-full h-full object-cover" />
               </div>
-              <div className="mt-3 font-semibold text-gray-900">{member.name}</div>
-              <div className="text-sm text-gray-600">{member.role}</div>
+              <div className="mt-3.5 font-bold text-gray-900 dark:text-gray-100 text-sm">{member.name}</div>
+              <div className="text-xs font-semibold text-blue-600 dark:text-cyan-400 mt-0.5">{member.role}</div>
             </div>
           </div>
         ))}
@@ -31,5 +38,3 @@ export default function Team() {
     </div>
   );
 }
-
-
