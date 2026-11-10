@@ -48,8 +48,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/ExceptedPrism3/42-Hackaton.git
-cd 42-Hackaton
+git clone https://github.com/ExceptedPrism3/42-Hackaton-42Botler.git
+cd 42-Hackaton-42Botler
 
 # Install all dependencies (Monorepo)
 npm run install:all
@@ -131,6 +131,10 @@ PORT=3001
 ---
 
 ## 👥 Authors & Credits
+
+**42Botler** was developed collaboratively by **Team Cooked** during the **Unlock Campus Hackathon** at **42 Heilbronn, Germany**, on **October 20, 2025**.
+
+Thanks to the hackathon team for the shared ideas, collaboration, and development of the project.
 
 Built with ❤️ for students and Pisciners at **42 Heilbronn**.
 
